@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:notes_app_using_firebase/presentation/screens/login_page.dart';
-import 'package:notes_app_using_firebase/presentation/screens/sign_up_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

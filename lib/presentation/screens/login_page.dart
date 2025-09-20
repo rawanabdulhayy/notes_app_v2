@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:notes_app_using_firebase/core/app_colors/AppColors.dart';
-import 'package:notes_app_using_firebase/presentation/screens/sign_up_page.dart';
+import 'package:notes_app_firebase/logic/sign_up_bloc/signup_bloc.dart';
+import 'package:notes_app_firebase/presentation/screens/sign_up_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../core/app_colors/app_colors.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -22,7 +25,7 @@ class LoginPage extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
-            SizedBox(height: 25,),
+            SizedBox(height: 25),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -141,13 +144,20 @@ class LoginPage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 230,),
+            SizedBox(height: 230),
             Padding(
               padding: const EdgeInsets.only(top: 50),
               child: GestureDetector(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (_) => SignUpPage(),
-                  ));
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => BlocProvider(
+                        create: (_) => SignupBloc(FirebaseAuth.instance),
+                        child: SignUpPage(),
+                      ),
+                    ),
+                  );
                 },
                 child: Text(
                   'Don\'t have an account? Sign Up',

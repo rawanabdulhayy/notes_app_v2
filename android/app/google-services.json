@@ -1,21 +1,37 @@
 {
   "project_info": {
+<<<<<<< HEAD
+    "project_number": "819677217576",
+    "project_id": "notes-firebase-amit-session",
+    "storage_bucket": "notes-firebase-amit-session.firebasestorage.app"
+=======
     "project_number": "218315776468",
     "project_id": "amit-notesapp",
     "storage_bucket": "amit-notesapp.firebasestorage.app"
+>>>>>>> origin/main
   },
   "client": [
     {
       "client_info": {
+<<<<<<< HEAD
+        "mobilesdk_app_id": "1:819677217576:android:163dec0cb40e7e6032061d",
+        "android_client_info": {
+          "package_name": "com.example.notes_app_firebase"
+=======
         "mobilesdk_app_id": "1:218315776468:android:13a1af9225d2d99d44f641",
         "android_client_info": {
           "package_name": "com.example.notes_app_using_firebase"
+>>>>>>> origin/main
         }
       },
       "oauth_client": [],
       "api_key": [
         {
+<<<<<<< HEAD
+          "current_key": "AIzaSyAJUkZ37AD0MjFEpcGxynxQ6KTmazO123s"
+=======
           "current_key": "AIzaSyDnknNQsJNTbpaRDzDTlyTFmErnZTqrIbA"
+>>>>>>> origin/main
         }
       ],
       "services": {

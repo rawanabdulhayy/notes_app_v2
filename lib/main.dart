@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notes_app_using_firebase/presentation/screens/login_page.dart';
+import 'package:notes_app_firebase/presentation/screens/login_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async{

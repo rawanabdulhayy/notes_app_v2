@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes_app_firebase/presentation/screens/create_note.dart';
 import 'package:notes_app_firebase/presentation/screens/login_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: LoginPage(),
+      home: CreateNotePage(),
     );
   }
 }

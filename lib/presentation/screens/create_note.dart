@@ -75,7 +75,7 @@ class CreateNotePage extends StatelessWidget {
             TextField(
               controller: descriptionController,
               style: TextStyle(color: Colors.white),
-              //------------maxlines property added------------
+              //------------maxLines property added------------
               maxLines: 6,
               decoration: InputDecoration(
                 hintText: "Enter Your Description",

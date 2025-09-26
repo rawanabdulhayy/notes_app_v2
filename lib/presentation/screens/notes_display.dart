@@ -1,5 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart' show DateFormat;
+import 'package:notes_app_firebase/logic/create_note/create_note_bloc.dart';
+import 'package:notes_app_firebase/presentation/screens/create_note.dart';
 
 import '../../core/app_colors/app_colors.dart';
 import '../../models/note.dart';
@@ -15,7 +19,8 @@ List<Note> dummyNotes = [
   Note(
     id: 1,
     headLine: "Meeting",
-    description: "Excepteur sint occaecat cupidatat non proiden, Excepteur sint occaecat cupidatat non proiden.",
+    description:
+        "Excepteur sint occaecat cupidatat non proiden, Excepteur sint occaecat cupidatat non proiden.",
     createdAt: Timestamp.fromDate(DateTime(2025, 9, 26, 9, 0)), // 9:00 am
   ),
   Note(
@@ -58,7 +63,19 @@ class _NotesDisplayState extends State<NotesDisplay> {
               children: [
                 Flexible(
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) {
+                            return BlocProvider(
+                              create: (context) => CreateNoteBloc(),
+                              child: CreateNotePage(),
+                            );
+                          },
+                        ),
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       //width and height in elevated buttons -- denoted by minimum size property (width, height)
                       minimumSize: Size(164, 48),
@@ -95,7 +112,7 @@ class _NotesDisplayState extends State<NotesDisplay> {
                         ), // rounded corners
                       ),
                     ),
-                    child: Text("Add Note"),
+                    child: Text("Log Out"),
                   ),
                 ),
               ],
@@ -152,7 +169,9 @@ class _NotesDisplayState extends State<NotesDisplay> {
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       note.description,
-                                      style: const TextStyle(color: Colors.white70),
+                                      style: const TextStyle(
+                                        color: Colors.white70,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -161,13 +180,19 @@ class _NotesDisplayState extends State<NotesDisplay> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top:30.0, left: 10),
+                          padding: const EdgeInsets.only(top: 30.0, left: 10),
                           child: Align(
                             //fixed at bottom right while the column have rhe expanded -- remianing soace within the rwo
                             alignment: Alignment.bottomRight,
                             child: Text(
-                              note.createdAt as String,
-                              style: const TextStyle(color: Colors.white60, fontSize: 10),
+                              //todo: figure out what this line even does?
+                              DateFormat(
+                                'hh:mm a',
+                              ).format(note.createdAt.toDate()),
+                              style: const TextStyle(
+                                color: Colors.white60,
+                                fontSize: 10,
+                              ),
                             ),
                           ),
                         ),

@@ -8,6 +8,7 @@ import 'package:notes_app_firebase/logic/get_notes/get_notes_state.dart';
 import 'package:notes_app_firebase/presentation/screens/create_note.dart';
 
 import '../../core/app_colors/app_colors.dart';
+import '../../logic/get_notes/get_notes_event.dart';
 import '../../models/note.dart';
 
 class NotesDisplay extends StatefulWidget {
@@ -53,10 +54,17 @@ class NotesDisplay extends StatefulWidget {
 
 class _NotesDisplayState extends State<NotesDisplay> {
   @override
+  void initState() {
+    super.initState();
+    // Trigger the fetch immediately
+    context.read<NoteBloc>().add(FetchNotesEvent());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<NoteBloc, NoteState>(
       builder: (context, state) {
-        if (state is NoteLoadedState) {
+        if (state is GetNoteLoadedState) {
           return Scaffold(
             backgroundColor: AppColors.primaryColor,
             body: Column(
@@ -220,11 +228,11 @@ class _NotesDisplayState extends State<NotesDisplay> {
               ],
             ),
           );
-        } else if (state is NoteLoadingState) {
+        } else if (state is GetNoteLoadingState) {
           return const Scaffold(
             body: Center(child: CircularProgressIndicator()),
           );
-        } else if (state is NoteErrorState) {
+        } else if (state is GetNoteErrorState) {
           return Scaffold(
             body: Center(
               child: Text(

@@ -1,4 +1,4 @@
 abstract class NoteEvent{}
 
-class LoadNotesEvent extends NoteEvent{}
-class deleteNotesEvent extends NoteEvent{}
+class FetchNotesEvent extends NoteEvent{}
+// class deleteNotesEvent extends NoteEvent{}

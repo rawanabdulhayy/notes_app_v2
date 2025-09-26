@@ -6,9 +6,9 @@ import 'package:notes_app_firebase/logic/get_notes/get_notes_state.dart';
 import '../../models/note.dart';
 
 class NoteBloc extends Bloc<NoteEvent, NoteState> {
-  NoteBloc() : super(NoteInitialState()) {
-    on<LoadNotesEvent>((event, emit) async {
-      emit(NoteLoadingState());
+  NoteBloc() : super(GetNoteInitialState()) {
+    on<FetchNotesEvent>((event, emit) async {
+      emit(GetNoteLoadingState());
       try {
         //each doc represents a note
         final snapshotOfTheCollection = await FirebaseFirestore.instance
@@ -18,10 +18,10 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
         final notes = snapshotOfTheCollection.docs
             .map((note) => Note.fromJson(note.data()))
             .toList();
-        emit(NoteLoadedState(notes));
+        emit(GetNoteLoadedState(notes));
       } catch (e) {
         print(e);
-        emit(NoteErrorState(e.toString()));
+        emit(GetNoteErrorState(e.toString()));
       }
     });
   }

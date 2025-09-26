@@ -5,6 +5,7 @@ import 'package:notes_app_firebase/presentation/screens/create_note.dart';
 import 'package:notes_app_firebase/presentation/screens/login_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes_app_firebase/presentation/screens/notes_display.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         ),
-        home: LoginPage(),
+        home: NotesDisplay(),
       ),
     );
   }

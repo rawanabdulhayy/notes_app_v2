@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:notes_app_firebase/logic/get_notes/get_notes_bloc.dart';
 import 'package:notes_app_firebase/logic/login_bloc/login_bloc.dart';
 import 'package:notes_app_firebase/logic/login_bloc/login_event.dart';
 import 'package:notes_app_firebase/logic/login_bloc/login_state.dart';
 import 'package:notes_app_firebase/logic/sign_up_bloc/signup_bloc.dart';
+import 'package:notes_app_firebase/presentation/screens/notes_display.dart';
 import 'package:notes_app_firebase/presentation/screens/sign_up_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/app_colors/app_colors.dart';
@@ -31,6 +33,16 @@ class LoginPage extends StatelessWidget {
             ScaffoldMessenger.of(
               context,
             ).showSnackBar(const SnackBar(content: Text("Login Successful")));
+            // Navigate after login success
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (_) => BlocProvider(
+                  create: (context) => NoteBloc(),
+                  child: NotesDisplay(),
+                ),
+              ),
+            );
             // Navigate to home screen or notes page
           } else if (state is LoginStateError) {
             Navigator.of(context).pop();
@@ -147,9 +159,24 @@ class LoginPage extends StatelessWidget {
                         context.read<LoginBloc>().add(
                           LoginButtonPressed(email, password),
                         );
+                        // ALERT!!! Only navigate after login is successful, inside your BlocListener for LoginBloc, mesh inside the button, because it doesn't account for states.
+                        // The button only ever fires the LoginButtonPressed event.
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (_) {
+                        //       return BlocProvider(
+                        //         create: (context) => NoteBloc(),
+                        //         child: NotesDisplay(),
+                        //       );
+                        //     },
+                        //   ),
+                        // );
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text("Please fill all fields")),
+                          const SnackBar(
+                            content: Text("Please fill all fields"),
+                          ),
                         );
                       }
                     },

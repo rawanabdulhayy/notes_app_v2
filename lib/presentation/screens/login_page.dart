@@ -38,7 +38,7 @@ class LoginPage extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (_) => BlocProvider(
-                  create: (context) => NoteBloc(),
+                  create: (context) => GetNoteBloc(),
                   child: NotesDisplay(),
                 ),
               ),
@@ -225,8 +225,13 @@ class LoginPage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => BlocProvider(
-                          create: (_) => SignupBloc(FirebaseAuth.instance),
+                        builder: (_) => MultiBlocProvider(
+                          providers: [
+                            BlocProvider(
+                              create: (_) => SignupBloc(FirebaseAuth.instance),
+                            ),
+                            BlocProvider(create: (context) => GetNoteBloc()),
+                          ],
                           child: SignUpPage(),
                         ),
                       ),

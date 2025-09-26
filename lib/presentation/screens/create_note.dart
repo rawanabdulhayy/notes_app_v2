@@ -4,7 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app_firebase/logic/create_note/create_note_bloc.dart';
 import 'package:notes_app_firebase/logic/create_note/create_note_event.dart';
 import 'package:notes_app_firebase/logic/create_note/create_note_state.dart';
+import 'package:notes_app_firebase/presentation/screens/notes_display.dart';
 import '../../core/app_colors/app_colors.dart';
+import '../../logic/get_notes/get_notes_bloc.dart';
+import '../../logic/get_notes/get_notes_event.dart';
 import '../../models/note.dart';
 
 class CreateNotePage extends StatefulWidget {
@@ -68,7 +71,18 @@ class _CreateNotePageState extends State<CreateNotePage> {
               ),
             ),
           );
-          Navigator.pop(context);
+        // is failing silently, because inside your CreateNotePage you don’t actually have access to the GetNoteBloc from the notes list.
+        //   context.read<GetNoteBloc>().add(FetchNotesEvent());
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (_) => BlocProvider(
+                create: (context) => GetNoteBloc()..add(FetchNotesEvent()),
+                child: NotesDisplay(),
+              ),
+            ),
+          );
+
         } else if (state is CreateNoteError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("Error: ${state.message} was encountered!")),
@@ -179,9 +193,11 @@ class _CreateNotePageState extends State<CreateNotePage> {
 
                 // Create Button
                 ElevatedButton(
-                  onPressed: state is CreateNoteLoading ? null : () {
-                    _submitNote();
-                  },
+                  onPressed: state is CreateNoteLoading
+                      ? null
+                      : () {
+                          _submitNote();
+                        },
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(double.infinity, 48),
                     backgroundColor: Colors.white,

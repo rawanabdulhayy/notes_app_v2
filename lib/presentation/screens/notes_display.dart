@@ -57,12 +57,12 @@ class _NotesDisplayState extends State<NotesDisplay> {
   void initState() {
     super.initState();
     // Trigger the fetch immediately
-    context.read<NoteBloc>().add(FetchNotesEvent());
+    context.read<GetNoteBloc>().add(FetchNotesEvent());
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<NoteBloc, NoteState>(
+    return BlocBuilder<GetNoteBloc, NoteState>(
       builder: (context, state) {
         if (state is GetNoteLoadedState) {
           return Scaffold(

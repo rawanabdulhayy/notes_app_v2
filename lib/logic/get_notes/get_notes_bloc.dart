@@ -5,8 +5,8 @@ import 'package:notes_app_firebase/logic/get_notes/get_notes_state.dart';
 
 import '../../models/note.dart';
 
-class NoteBloc extends Bloc<NoteEvent, NoteState> {
-  NoteBloc() : super(GetNoteInitialState()) {
+class GetNoteBloc extends Bloc<NoteEvent, NoteState> {
+  GetNoteBloc() : super(GetNoteInitialState()) {
     on<FetchNotesEvent>((event, emit) async {
       emit(GetNoteLoadingState());
       try {

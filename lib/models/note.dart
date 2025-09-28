@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Note {
-  final int? id;
+  final String? id;
   final String headLine;
   final String description;
   final Timestamp createdAt;

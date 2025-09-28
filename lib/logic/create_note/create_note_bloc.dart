@@ -9,9 +9,13 @@ class CreateNoteBloc extends Bloc<CreateNoteEvent, CreateNoteState> {
     on<SubmitNoteEvent>((event, emit) async {
       emit(CreateNoteLoading());
       try {
-        await FirebaseFirestore.instance
+        final docRef = await FirebaseFirestore.instance
             .collection('notes')
             .add(event.note.toJson());
+
+        // store the generated Firestore ID inside the document
+        await docRef.update({'id': docRef.id});
+
         emit(CreateNoteLoaded());
       } catch (e) {
         emit(CreateNoteError(e.toString()));

@@ -6,6 +6,7 @@ import 'package:notes_app_firebase/logic/create_note/create_note_event.dart';
 import 'package:notes_app_firebase/logic/create_note/create_note_state.dart';
 import 'package:notes_app_firebase/presentation/screens/notes_display.dart';
 import '../../core/app_colors/app_colors.dart';
+import '../../logic/delete_note/delete_notes_bloc.dart';
 import '../../logic/get_notes/get_notes_bloc.dart';
 import '../../logic/get_notes/get_notes_event.dart';
 import '../../models/note.dart';
@@ -73,11 +74,19 @@ class _CreateNotePageState extends State<CreateNotePage> {
           );
         // is failing silently, because inside your CreateNotePage you don’t actually have access to the GetNoteBloc from the notes list.
         //   context.read<GetNoteBloc>().add(FetchNotesEvent());
+          ///we provided both because the navigated page needs both, not because I have anything to do with both as the create page speaking.
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (_) => BlocProvider(
-                create: (context) => GetNoteBloc()..add(FetchNotesEvent()),
+              builder: (_) => MultiBlocProvider(
+                providers: [
+                  BlocProvider(
+                    create: (context) => GetNoteBloc()..add(FetchNotesEvent()),
+                  ),
+                  BlocProvider(
+                    create: (context) => DeleteNotesBloc(),
+                  ),
+                ],
                 child: NotesDisplay(),
               ),
             ),

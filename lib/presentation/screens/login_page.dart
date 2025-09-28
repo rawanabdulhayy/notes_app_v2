@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:notes_app_firebase/logic/delete_note/delete_notes_bloc.dart';
 import 'package:notes_app_firebase/logic/get_notes/get_notes_bloc.dart';
 import 'package:notes_app_firebase/logic/login_bloc/login_bloc.dart';
 import 'package:notes_app_firebase/logic/login_bloc/login_event.dart';
@@ -37,8 +38,18 @@ class LoginPage extends StatelessWidget {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (_) => BlocProvider(
-                  create: (context) => GetNoteBloc(),
+                builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider(create: (context) => GetNoteBloc()),
+                    BlocProvider(create: (context) => DeleteNotesBloc()),
+                  ],
+              //       If you wrap NotesDisplay in a MultiBlocProvider inside MaterialPageRoute, then every time you navigate to it, you create brand new bloc instances. That means:
+              //   Any state in the blocs is lost.
+              //   If you later try to context.read<GetNoteBloc>() in another screen, it might not find it.
+              // That’s why sometimes the provider error pops up — Flutter can’t find the bloc in the widget tree you expect.
+              // ✅ A common fix is to decide whether your blocs are:
+              // Scoped to a single page → then your current approach is fine.
+              // App-wide (e.g. you always need GetNotes across multiple screens) → then you should provide them above your MaterialApp, in the root widget.
                   child: NotesDisplay(),
                 ),
               ),

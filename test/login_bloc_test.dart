@@ -1,15 +1,10 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:notes_app_firebase/logic/login_bloc/login_bloc.dart';
 import 'package:notes_app_firebase/logic/login_bloc/login_event.dart';
 import 'package:notes_app_firebase/logic/login_bloc/login_state.dart';
-import 'package:bloc_test/bloc_test.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 
 class MockFirebaseAuth extends Mock implements FirebaseAuth {}
 

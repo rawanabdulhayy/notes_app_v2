@@ -4,12 +4,18 @@ import 'create_note_event.dart';
 import 'create_note_state.dart';
 
 class CreateNoteBloc extends Bloc<CreateNoteEvent, CreateNoteState> {
-  CreateNoteBloc() : super(CreateNoteInitial()) {
+  //------------------approach 1: making the Firestore hard-coded.
+  // CreateNoteBloc() : super(CreateNoteInitial()) {
+
+  //------------------approach 2: making the Firestore dependency injectable instead.
+  // By adding a final FirebaseFirestore firestore; field and passing it in the constructor.
+  final FirebaseFirestore firestore;
+  CreateNoteBloc({FirebaseFirestore? firestoreInstance}) : firestore = firestoreInstance ?? FirebaseFirestore.instance, super(CreateNoteInitial()) {
     // Handle SubmitNoteEvent
     on<SubmitNoteEvent>((event, emit) async {
       emit(CreateNoteLoading());
       try {
-        final docRef = await FirebaseFirestore.instance
+        final docRef = await firestore
             .collection('notes')
             .add(event.note.toJson());
 
@@ -26,7 +32,7 @@ class CreateNoteBloc extends Bloc<CreateNoteEvent, CreateNoteState> {
     on<EditNoteEvent>((event, emit) async {
       emit(CreateNoteLoading());
       try {
-        await FirebaseFirestore.instance
+        await firestore
             .collection('notes')
             .doc(event.noteId)
             .update(event.updatedNote.toJson());
